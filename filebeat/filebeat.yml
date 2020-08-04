@@ -1,3 +1,4 @@
+---
 filebeat:
   inputs:
     - type: log
@@ -7,6 +8,7 @@ filebeat:
       paths:
         - /var/log/ads/app.log
         - /var/log/geocoder/app.log
+        - /var/log/auth/app.log
 setup:
   kibana:
     host: "http://kibana:5601"
