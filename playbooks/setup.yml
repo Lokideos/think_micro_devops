@@ -7,9 +7,13 @@
       DOCKER_USER=lokideos
       DOCKER_PASSWORD=
       ADS_DATABASE_URL=postgresql://ads:xydFdZZNGFYXrjdF@localhost/ads_microservice_production
+      AUTH_DATABASE_URL=postgresql://auth:xydFdZZNGFYXrjdF@localhost/auth_microservice_production
       RABBITMQ_HOST=127.0.0.1
       RABBITMQ_USER=ads
       RABBITMQ_PASSWORD=vcctWAva2aMmKXZF
+      AUTH_RABBITMQ_HOST=127.0.0.1
+      AUTH_RABBITMQ_USER=auth
+      AUTH_RABBITMQ_PASSWORD=vcctWAva2aMmKXZF
       RACK_ENV=production
   tasks:
     - name: ensure pip is installed
