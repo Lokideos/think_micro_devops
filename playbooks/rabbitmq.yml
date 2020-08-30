@@ -38,7 +38,7 @@
     - name: ensure rabbitmq user is present
       rabbitmq_user:
         user: '{{ user }}'
-        password: '{{ password}}'
+        password: '{{ password }}'
         tags: 'administrator'
         vhost: /
         configure_priv: .*
@@ -49,3 +49,20 @@
       rabbitmq_user:
         user: guest
         state: absent
+- hosts: rabbitmq
+  become: yes
+  gather_facts: no
+  vars:
+    user: auth
+    password: vcctWAva2aMmKXZF
+  tasks:
+    - name: ensure rabbitmq user is present
+      rabbitmq_user:
+        user: '{{ user }}'
+        password: '{{ password }}'
+        tags: 'administrator'
+        vhost: /
+        configure_priv: .*
+        write_priv: .*
+        read_priv: .*
+        state: present
