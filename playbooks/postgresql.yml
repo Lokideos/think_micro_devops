@@ -52,6 +52,11 @@
     - name: ensure database is created
       postgresql_db:
         name: '{{ database }}'
+    - name: ensure needed extensions are installed
+      postgresql_ext:
+        name: citext
+        db: '{{ database }}'
+        state: present
     - name: ensure user has access to database
       postgresql_user:
         db: '{{ database }}'
