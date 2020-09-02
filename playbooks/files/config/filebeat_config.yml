@@ -11,7 +11,7 @@ filebeat:
         keys_under_root: true
 setup:
   kibana:
-    host: "http://localhost:5601"
+    host: "http://46.101.236.61:5601"
 output:
   logstash:
-    hosts: ["0.0.0.0:5044"]
+    hosts: ["46.101.236.61:5044"]
