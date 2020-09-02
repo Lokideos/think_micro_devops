@@ -6,12 +6,12 @@
     env_vars: |
       DOCKER_USER=lokideos
       DOCKER_PASSWORD=
-      ADS_DATABASE_URL=postgresql://ads:xydFdZZNGFYXrjdF@localhost/ads_microservice_production
-      AUTH_DATABASE_URL=postgresql://auth:xydFdZZNGFYXrjdF@localhost/auth_microservice_production
-      RABBITMQ_HOST=127.0.0.1
+      ADS_DATABASE_URL=postgresql://ads:xydFdZZNGFYXrjdF@46.101.236.61/ads_microservice_production
+      AUTH_DATABASE_URL=postgresql://auth:xydFdZZNGFYXrjdF@46.101.236.61/auth_microservice_production
+      RABBITMQ_HOST=46.101.236.61
       RABBITMQ_USER=ads
       RABBITMQ_PASSWORD=vcctWAva2aMmKXZF
-      AUTH_RABBITMQ_HOST=127.0.0.1
+      AUTH_RABBITMQ_HOST=46.101.236.61
       AUTH_RABBITMQ_USER=auth
       AUTH_RABBITMQ_PASSWORD=vcctWAva2aMmKXZF
       RACK_ENV=production
