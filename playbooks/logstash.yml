@@ -1,0 +1,70 @@
+---
+- hosts: elastic
+  become: yes
+  gather_facts: no
+  roles:
+    - common
+  tasks:
+    - name: Ensure required dependencies are installed
+      apt:
+        name:
+          - apt-transport-https
+          - gnupg2
+          - openjdk-11-jre-headless
+        state: present
+
+    - name: Add Elasticsearch apt key
+      apt_key:
+        url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+        state: present
+
+    - name: Add Logstash repository
+      apt_repository:
+        repo: 'deb https://artifacts.elastic.co/packages/7.x/apt stable main'
+        state: present
+        update_cache: true
+
+    - name: Install Logstash
+      apt:
+        name: logstash
+        state: present
+
+    - name: Add Logstash user to adm group
+      user:
+        name: logstash
+        group: logstash
+        groups: adm
+      notify: restart logstash
+
+    - name: Create Logstash configuration files.
+      copy:
+        src: "filters/{{ item }}"
+        dest: "/etc/logstash/conf.d/{{ item }}"
+        owner: root
+        group: root
+        mode: 0644
+      with_items:
+        - input.conf
+        - output.conf
+      notify: restart logstash
+
+    - name: Create Logstash filters.
+      copy:
+        src: "filters/filters.conf"
+        dest: "/etc/logstash/conf.d/filters.conf"
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart logstash
+
+    - name: Ensure Logstash is started and enabled on boot.
+      service:
+        name: logstash
+        state: started
+        enabled: true
+
+  handlers:
+    - name: restart logstash
+      service:
+        name: logstash
+        state: restarted
