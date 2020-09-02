@@ -1,0 +1,33 @@
+---
+- hosts: elastic
+  become: yes
+  gather_facts: no
+  roles:
+    - common
+    - elastic-common
+  tasks:
+    - name: Install Filebeat
+      package:
+        name: filebeat
+        state: present
+
+    - name: Copy Filebeat configuration
+      copy:
+        src: "config/filebeat_config.yml"
+        dest: "/etc/filebeat/filebeat.yml"
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart filebeat
+
+    - name: Ensure Filebeat is started and enabled at boot
+      service:
+        name: filebeat
+        state: started
+        enabled: true
+
+  handlers:
+    - name: restart filebeat
+      service:
+        name: filebeat
+        state: restarted
