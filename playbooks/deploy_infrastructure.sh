@@ -6,7 +6,6 @@ ansible-playbook kibana.yml
 ansible-playbook logstash.yml
 ansible-playbook filebeat.yml
 ansible-playbook kibana_dashboards.yml
-ansible-playbook kibana_dashboards.yml
 
 # Deploy Database
 ansible-playbook postgresql.yml
@@ -16,6 +15,12 @@ ansible-playbook rabbitmq.yml
 
 # Deploy Docker deps
 ansible-playbook docker.yml
+
+# Deploy Nginx
+ansible-playbook nginx.yml
+
+# Configure ufw
+ansible-playbook ufw.yml
 
 # Setup
 ansibel-playbook setup.yml
