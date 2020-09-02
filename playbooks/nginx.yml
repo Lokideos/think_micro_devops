@@ -10,13 +10,13 @@
         name: nginx
     - name: ensure ads nginx config us uploaded
       copy:
-        src: ads.nginx.conf
+        src: "nginx/ads.nginx.conf"
         dest: /etc/nginx/conf.d/ads.conf
       notify:
         - restart nginx
     - name: ensure auth nginx config us uploaded
       copy:
-        src: auth.nginx.conf
+        src: "nginx/auth.nginx.conf"
         dest: /etc/nginx/conf.d/auth.conf
       notify:
         - restart nginx
