@@ -18,8 +18,8 @@
         enabled: true
 
     - name: Copy Kibana configuration.
-      template:
-        src: "elastic/kibana.yml.j2"
+      copy:
+        src: "config/kibana_config.yml"
         dest: /etc/kibana/kibana.yml
         owner: root
         group: root
