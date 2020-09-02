@@ -38,7 +38,7 @@
 
     - name: Create Logstash configuration files.
       copy:
-        src: "filters/{{ item }}"
+        src: "config/{{ item }}"
         dest: "/etc/logstash/conf.d/{{ item }}"
         owner: root
         group: root
