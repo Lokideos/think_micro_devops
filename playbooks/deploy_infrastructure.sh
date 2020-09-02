@@ -23,4 +23,4 @@ ansible-playbook nginx.yml
 ansible-playbook ufw.yml
 
 # Setup
-ansibel-playbook setup.yml
+ansible-playbook setup.yml
