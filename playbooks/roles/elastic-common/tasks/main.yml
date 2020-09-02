@@ -12,7 +12,7 @@
     url: https://artifacts.elastic.co/GPG-KEY-elasticsearch
     state: present
 
-- name: Add Logstash repository
+- name: Add Elastic repository
   apt_repository:
     repo: 'deb https://artifacts.elastic.co/packages/7.x/apt stable main'
     state: present
