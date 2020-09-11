@@ -1,0 +1,8 @@
+---
+- hosts: filebeat
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Load dashboards to Kibana
+      shell: |
+        filebeat setup --dashboards

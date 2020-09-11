@@ -1,0 +1,28 @@
+---
+- hosts: app
+  become: yes
+  gather_facts: no
+  vars:
+    env_vars: |
+      DOCKER_USER=lokideos
+      DOCKER_PASSWORD=
+      ADS_DATABASE_URL=postgresql://ads:xydFdZZNGFYXrjdF@46.101.236.61/ads_microservice_production
+      AUTH_DATABASE_URL=postgresql://auth:xydFdZZNGFYXrjdF@46.101.236.61/auth_microservice_production
+      RABBITMQ_HOST=46.101.236.61
+      RABBITMQ_USER=ads
+      RABBITMQ_PASSWORD=vcctWAva2aMmKXZF
+      AUTH_RABBITMQ_HOST=46.101.236.61
+      AUTH_RABBITMQ_USER=auth
+      AUTH_RABBITMQ_PASSWORD=vcctWAva2aMmKXZF
+      RACK_ENV=production
+  tasks:
+    - name: ensure pip is installed
+      apt:
+        name: python3-pip
+    - name: ensure python dependencies are installed
+      pip:
+        name: docker
+    - name: ensure env file is uploaded
+      copy:
+        content: '{{ env_vars }}'
+        dest: '/home/{{ ansible_user }}/.env'

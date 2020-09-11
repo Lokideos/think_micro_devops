@@ -1,0 +1,100 @@
+---
+- hosts: db
+  become: yes
+  gather_facts: no
+  roles:
+    - common
+  tasks:
+    - name: ensure packages are installed
+      apt:
+        name:
+          - postgresql
+          - libpq-dev
+          - python3-psycopg2
+    - name: Grant all privileges to users from app server
+      postgresql_pg_hba:
+        dest: /etc/postgresql/12/main/pg_hba.conf
+        contype: host
+        users: all
+        source: 142.93.169.162/32
+        databases: all
+        method: md5
+      notify: restart postgresql
+    - name: add postgres config with option to listen to incoming connection from other servers
+      copy:
+        src: "config/postgresql.conf"
+        dest: /etc/postgresql/12/main/postgresql.conf
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart postgresql
+
+  handlers:
+    - name: restart postgresql
+      service:
+        name: postgresql
+        state: restarted
+- hosts: db
+  become: yes
+  become_user: postgres
+  gather_facts: no
+  vars:
+    database: ads_microservice_production
+    user: ads
+    password: xydFdZZNGFYXrjdF
+  tasks:
+    - name: ensure database is created
+      postgresql_db:
+        name: '{{ database }}'
+    - name: ensure user has access to database
+      postgresql_user:
+        db: '{{ database }}'
+        name: '{{ user }}'
+        password: '{{ password }}'
+        priv: ALL
+    - name: ensure user has no extra privileges
+      postgresql_user:
+        name: '{{ user }}'
+        role_attr_flags: NOSUPERUSER,NOCREATEDB
+    - name: ensure no other user can access the database
+      postgresql_privs:
+        db: '{{ database }}'
+        role: PUBLIC
+        type: database
+        priv: ALL
+        state: absent
+- hosts: db
+  become: yes
+  become_user: postgres
+  gather_facts: no
+  vars:
+    database: auth_microservice_production
+    user: auth
+    password: xydFdZZNGFYXrjdF
+  tasks:
+    - name: ensure database is created
+      postgresql_db:
+        name: '{{ database }}'
+    - name: ensure needed extensions are installed
+      postgresql_ext:
+        name: citext
+        db: '{{ database }}'
+        state: present
+    - name: ensure user has access to database
+      postgresql_user:
+        db: '{{ database }}'
+        name: '{{ user }}'
+        password: '{{ password }}'
+        priv: ALL
+    - name: ensure user has no extra privileges
+      postgresql_user:
+        name: '{{ user }}'
+        role_attr_flags: NOSUPERUSER,NOCREATEDB
+    - name: ensure no other user can access the database
+      postgresql_privs:
+        db: '{{ database }}'
+        role: PUBLIC
+        type: database
+        priv: ALL
+        state: absent
+

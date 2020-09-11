@@ -1,0 +1,33 @@
+---
+- hosts: elastic
+  become: yes
+  gather_facts: no
+  roles:
+    - common
+    - elastic-common
+  tasks:
+    - name: Install Kibana
+      package:
+        name: kibana
+        state: present
+
+    - name: Ensure Kibana is started and enabled at boot
+      service:
+        name: kibana
+        state: started
+        enabled: true
+
+    - name: Copy Kibana configuration.
+      copy:
+        src: "config/kibana_config.yml"
+        dest: /etc/kibana/kibana.yml
+        owner: root
+        group: root
+        mode: 0644
+      notify: restart kibana
+
+  handlers:
+    - name: restart kibana
+      service:
+        name: kibana
+        state: restarted
