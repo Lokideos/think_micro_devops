@@ -1,1 +1,12 @@
+# Ignore macOS specific files
+.DS_Store
+
+# Ignore RubyMine specific files
 .idea/
+
+# Ignore any tar and archived tar files
+*.tar.gz
+*.tar
+
+# Ignore node exporter binary
+prometheus/node_exporter-1.0.1.darwin-amd64/*
