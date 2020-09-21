@@ -67,12 +67,33 @@ services:
       - "~/docker-data/think-micro-redis/data:/data"
     networks:
       - think-micro-network
+  prom:
+    image: prom/prometheus
+    container_name: prom
+    ports:
+      - 9090:9090
+    volumes:
+      - prometheus:/prometheus
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - think-micro-network
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 3005:3000
+    volumes:
+      - grafana:/var/lib/grafana
+    networks:
+      - think-micro-network
 
 networks:
   think-micro-network:
     driver: bridge
 
 volumes:
+  prometheus:
+  grafana:
   postgres:
   rabbitmq:
   redis:
